@@ -1,13 +1,5 @@
+import { OrderType, ProductType } from "@/types";
 
-interface ProductType {
-    id: number;
-    name: string;
-    price: number;
-}
-interface OrderType extends Omit<ProductType, 'price'> {
-    quantity: number;
-    totalCost: number;
-}
 
 export const products: ProductType[] = [
     {
