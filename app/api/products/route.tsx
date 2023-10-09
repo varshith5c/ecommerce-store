@@ -1,6 +1,6 @@
-import { products } from  "@/services/data";
+import { products } from "@/services";
 
-//get all products 
+//get all products
 export async function GET() {
   return Response.json({ data: products });
 }

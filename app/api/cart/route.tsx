@@ -1,9 +1,8 @@
-import { cartHandler } from  "@/services/data";
+import { cartHandler } from "@/services";
 
 // Add to cart
 export async function POST(request: Request) {
   const data = await request.json();
-  console.log({ data });
   const addedProduct = cartHandler.addCartProduct(data);
   return Response.json({ data: addedProduct }, { status: 200 });
 }
@@ -13,3 +12,4 @@ export async function GET(request: Request) {
   const addedProduct = cartHandler.getCartProducts();
   return Response.json({ data: addedProduct }, { status: 200 });
 }
+
