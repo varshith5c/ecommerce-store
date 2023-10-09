@@ -24,6 +24,9 @@ const Cart = async () => {
           );
         })}
       </div>
+      <div>
+        <Button>Place order</Button>
+      </div>
     </main>
   );
 };
