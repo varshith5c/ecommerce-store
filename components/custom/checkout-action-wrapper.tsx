@@ -2,28 +2,29 @@
 
 import React from "react";
 import { Button } from "../ui/button";
-import { CardFooter } from "../ui/card";
 import { useRouter } from "next/navigation";
-const CardWrapper = ({ children }: { children: React.ReactNode }) => {
+import addToCart from "@/utils/actions";
+const CheckoutWrapper = ({
+  doesProductsExist,
+  children,
+}: {
+  doesProductsExist: boolean;
+  children: React.ReactNode;
+}) => {
   const router = useRouter();
-  const handleAddToCart = async () => {
-    const data = await fetch("http://localhost:3000/api/cart", {
-      method: "POST",
-      body: JSON.stringify({
-        id: 1,
-      }),
-    }).then((res) => res.json());
-    router.push("/cart");
+  const handleProceedToBuy = ()=>{
+    router.push('/cart')
   };
   return (
-    <>
+    <div className=" mx-80 p-4">
       {children}
-      <CardFooter className="flex gap-2">
-        <Button onClick={handleAddToCart}>Buy now</Button>
-        <Button>Add to cart</Button>
-      </CardFooter>
-    </>
+      {doesProductsExist && (
+        <Button onClick={handleProceedToBuy} className="my-4">
+          Proceed to buy
+        </Button>
+      )}
+    </div>
   );
 };
 
-export default CardWrapper;
+export default CheckoutWrapper;

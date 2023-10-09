@@ -1,4 +1,4 @@
-import CardWrapper from "@/components/custom/card-action-wrapper";
+import CardWrapper from "@/components/custom/cart-action-wrapper";
 import Header from "@/components/custom/header";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import getProducts from "@/utils/cart";
+import { getProducts } from "@/utils";
 
 export default async function Home() {
   const products = await getProducts();
@@ -20,7 +20,9 @@ export default async function Home() {
         {products.map(({ id, name, price }) => {
           return (
             <Card key={id}>
-              <CardWrapper>
+              <CardWrapper
+                productData={{ id, name, price }}
+              >
                 <CardHeader>
                   <CardTitle>{name}</CardTitle>
                   <CardDescription>Rs.{price}</CardDescription>

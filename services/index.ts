@@ -19,29 +19,22 @@ export const products: ProductType[] = [
     },
 ];
 
-export const cartProducts: ProductType[] = [{
-    id: 1,
-    name: "Product 1",
-    price: 499,
-},
-{
-    id: 2,
-    name: "Product 2",
-    price: 600,
-}]
+export const cartProducts: ProductType[] = []
 export const orderedProducts: OrderType[] = []
 
 // Products handler
 export let productsHandler = {
-    products: orderedProducts,
+    products: products,
     addProduct: function ({ name, price, quantity }: { name: string, price: number, quantity: number }) {
         cartProducts.push({
             id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1,
             name,
             price
         })
-
     },
+    getProducts: function () {
+        return products;
+    }
 };
 
 // Cart handler

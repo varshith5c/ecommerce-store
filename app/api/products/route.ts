@@ -1,6 +1,8 @@
-import { products } from "@/services";
+import { products, productsHandler } from "@/services";
 
 //get all products
-export async function GET() {
-  return Response.json({ products });
+// get all cart products
+export async function GET(request: Request) {
+  const addedProduct = productsHandler.getProducts();
+  return Response.json({ data: addedProduct }, { status: 200 });
 }

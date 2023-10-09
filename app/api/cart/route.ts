@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
 // get all cart products
 export async function GET(request: Request) {
-  const addedProduct = cartHandler.getCartProducts();
-  return Response.json({ data: addedProduct }, { status: 200 });
+  const products = cartHandler.getCartProducts();
+  return Response.json({ data: products }, { status: 200 });
 }
 
