@@ -1,7 +1,8 @@
 import { cartHandler } from "@/services";
+import { NextRequest } from "next/server";
 
 // Add to cart
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data = await request.json();
   const addedProduct = cartHandler.addCartProduct(data);
   return Response.json({ data: addedProduct }, { status: 200 });

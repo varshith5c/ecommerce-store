@@ -1,10 +1,16 @@
 import CheckoutWrapper from "@/components/custom/checkout-action-wrapper";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cartHandler } from "@/services";
 import { getCartProducts } from "@/utils";
-export const revalidate = 1;
+
+export const dynamic = "force-dynamic";
+
 const Cart = async () => {
-  const products = await getCartProducts();
+  //   const products = await getCartProducts();
+  const products = cartHandler.getCartProducts();
+  console.log({ products });
+
   return (
     <CheckoutWrapper doesProductsExist={Boolean(products.length)}>
       <main>

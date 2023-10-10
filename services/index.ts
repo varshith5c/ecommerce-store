@@ -1,3 +1,4 @@
+import { addProducts } from "@/lib/utils";
 import { OrderType, ProductType } from "@/types";
 
 
@@ -19,12 +20,19 @@ export const products: ProductType[] = [
     },
 ];
 
-export const cartProducts: ProductType[] = []
-export const orderedProducts: OrderType[] = []
+export let cartProducts: ProductType[] = []
+export let orderedProducts: OrderType[] = []
+export const orderNumberForDiscount = 3;
+const currentOrderNumber = 29
+const appliedDiscountPercentage = 10;
+const adminData = {
+    itemsPurchased: 0,
+    totalPurchaseAmount: 0,
+    totalDiscountAmount: 0,
+}
 
 // Products handler
-export let productsHandler = {
-    products: products,
+export const productsHandler = {
     addProduct: function ({ name, price, quantity }: { name: string, price: number, quantity: number }) {
         cartProducts.push({
             id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1,
@@ -38,8 +46,7 @@ export let productsHandler = {
 };
 
 // Cart handler
-export let cartHandler = {
-    products: cartProducts,
+export const cartHandler = {
     addCartProduct: function ({ name, price, quantity }: { name: string, price: number, quantity: number }) {
         const newProduct = {
             id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1,
@@ -53,5 +60,62 @@ export let cartHandler = {
     },
     getCartProducts: function () {
         return cartProducts;
+    },
+    clearCart: function () {
+        cartProducts = []
+    }
+};
+// Order handler
+export const orderHandler = {
+    currentOrderNumber,
+    verifyDiscount: function () {
+        let discount = false
+        if ((currentOrderNumber + 1) % orderNumberForDiscount === 0) {
+            discount = true
+        }
+        return discount
+
+    },
+    addOrder: function (data: { discountApplied: number }) {
+        const products = cartHandler.getCartProducts();
+        const totalCost = addProducts(products)
+        const discountAmount = totalCost * appliedDiscountPercentage / 100
+        const costAfterDiscount = totalCost - discountAmount;
+
+        const orderId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1
+        const newOrder = {
+            id: orderId,
+            products,
+            discountAmount,
+            costAfterDiscount,
+            totalCost
+        }
+        orderedProducts.push(newOrder)
+
+
+        adminData.itemsPurchased += products.length;
+        adminData.totalDiscountAmount += discountAmount;
+        adminData.totalPurchaseAmount += totalCost;
+
+        //Clear the cart after placing the order
+        cartHandler.clearCart()
+        return orderId
+    },
+    getAdminInfo: function () {
+        return adminData
+    },
+    getOrderById: function (id: number) {
+        console.log("filterring", orderedProducts);
+
+        return orderedProducts.filter(order => {
+            console.log({ order });
+
+            console.log(order.id === id);
+
+            return order.id === id
+        })[0]
+    },
+    getAllOrder: function () {
+        return orderedProducts
     }
 };
