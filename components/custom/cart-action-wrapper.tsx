@@ -3,20 +3,24 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { CardFooter } from "../ui/card";
-import { useRouter } from "next/navigation";
 import { ProductType } from "@/types";
 import { addCartProduct } from "@/utils";
-const CardWrapper = ({
+import { useToast } from "../ui/use-toast";
+import { Toaster } from "../ui/toaster";
+const CartWrapper = ({
   productData: { id, name, price },
   children,
 }: {
   productData: ProductType;
   children: React.ReactNode;
 }) => {
-  const router = useRouter();
+  const { toast } = useToast();
   const handleAddToCart = async () => {
-    const data = await addCartProduct({ id, name, price });
-    router.push("/cart");
+    await addCartProduct({ id, name, price });
+    toast({
+      title: "Item added successfully",
+      // description: "Friday, February 10, 2023 at 5:57 PM",
+    });
   };
   return (
     <>
@@ -25,8 +29,10 @@ const CardWrapper = ({
         <Button>Buy now</Button>
         <Button onClick={handleAddToCart}>Add to cart</Button>
       </CardFooter>
+      <Toaster />
+
     </>
   );
 };
 
-export default CardWrapper;
+export default CartWrapper;

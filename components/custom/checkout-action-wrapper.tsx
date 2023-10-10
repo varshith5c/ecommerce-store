@@ -12,8 +12,8 @@ const CheckoutWrapper = ({
   children: React.ReactNode;
 }) => {
   const router = useRouter();
-  const handleProceedToBuy = ()=>{
-    router.push('/cart')
+  const handleProceedToBuy = () => {
+    router.push("/order");
   };
   return (
     <div className=" mx-80 p-4">

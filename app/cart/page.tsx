@@ -1,15 +1,25 @@
+"use client";
+
 import CheckoutWrapper from "@/components/custom/checkout-action-wrapper";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cartHandler } from "@/services";
+import { ProductType } from "@/types";
 import { getCartProducts } from "@/utils";
+import { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
 
-const Cart = async () => {
-  //   const products = await getCartProducts();
-  const products = cartHandler.getCartProducts();
-  console.log({ products });
+const Cart = () => {
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      const data = await getCartProducts();
+      setProducts(data);
+    }
+    getProducts();
+  }, []);
 
   return (
     <CheckoutWrapper doesProductsExist={Boolean(products.length)}>

@@ -3,7 +3,16 @@ export interface ProductType {
     name: string;
     price: number;
 }
-export interface OrderType extends Omit<ProductType, 'price'> {
-    quantity: number;
-    totalCost: number;
+export interface OrderType {
+    id: number,
+    products:ProductType[],
+    discountAmount:number,
+    costAfterDiscount:number,
+    totalCost:number
+}
+
+export type CouponStateType = {
+    generated: boolean,
+    value: string|null,
+    discount: number
 }
