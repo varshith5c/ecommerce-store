@@ -23,7 +23,7 @@ export const products: ProductType[] = [
 export let cartProducts: ProductType[] = []
 export let orderedProducts: OrderType[] = []
 export const orderNumberForDiscount = 3;
-const currentOrderNumber = 29
+let currentOrderNumber = 0;
 const appliedDiscountPercentage = 10;
 const adminData = {
     itemsPurchased: 0,
@@ -67,20 +67,24 @@ export const cartHandler = {
 };
 // Order handler
 export const orderHandler = {
-    currentOrderNumber,
     verifyDiscount: function () {
-        let discount = false
+        let discount = false;
+        console.log("v", currentOrderNumber);
+
         if ((currentOrderNumber + 1) % orderNumberForDiscount === 0) {
             discount = true
         }
+
         return discount
 
     },
-    addOrder: function (data: { discountApplied: number }) {
+    addOrder: function (data: { discountApplied: boolean }) {
         const products = cartHandler.getCartProducts();
+        console.log({ products });
+
         const totalCost = addProducts(products)
-        const discountAmount = totalCost * appliedDiscountPercentage / 100
-        const costAfterDiscount = totalCost - discountAmount;
+        const discountAmount = data.discountApplied ? totalCost * appliedDiscountPercentage / 100 : 0
+        const costAfterDiscount = data.discountApplied ? totalCost - discountAmount : totalCost;
 
         const orderId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1
         const newOrder = {
@@ -91,8 +95,13 @@ export const orderHandler = {
             totalCost
         }
         orderedProducts.push(newOrder)
+        console.log("before", currentOrderNumber);
+        currentOrderNumber += 1;
+        console.log("after", currentOrderNumber);
 
 
+
+        //admin data captured
         adminData.itemsPurchased += products.length;
         adminData.totalDiscountAmount += discountAmount;
         adminData.totalPurchaseAmount += totalCost;
@@ -105,13 +114,8 @@ export const orderHandler = {
         return adminData
     },
     getOrderById: function (id: number) {
-        console.log("filterring", orderedProducts);
 
         return orderedProducts.filter(order => {
-            console.log({ order });
-
-            console.log(order.id === id);
-
             return order.id === id
         })[0]
     },

@@ -1,6 +1,5 @@
 import { orderHandler } from "@/services";
 
-
 //Check for discount
 export async function GET(request: Request) {
   const discountApplicable = orderHandler.verifyDiscount();

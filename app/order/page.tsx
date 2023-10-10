@@ -36,9 +36,7 @@ const Order = () => {
     getProducts();
   }, []);
 
-  const totalCost = Boolean(products.length)
-    ? addProducts(products)
-    : 0;
+  const totalCost = Boolean(products.length) ? addProducts(products) : 0;
 
   return (
     <Dialog>
@@ -65,7 +63,7 @@ const Order = () => {
           <Button>Order</Button>
         </DialogTrigger>
         <DialogContent>
-          <OrderWrapper discountApplied={coupon.generated}>
+          <OrderWrapper discountApplied={Boolean(coupon.discount)}>
             <DialogHeader>
               <DialogTitle>Do you want to place the order?</DialogTitle>
               <DialogDescription>
